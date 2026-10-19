@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中文阅读效率自动评估</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>中文阅读效率自动评估</h1>
+  <p class="sub">实验材料精确评分 · 任意文本近似评分 · EyeLink 眼动叠加</p>
+  <p class="credit">中山大学心理学系 · 刘彦平 开发</p>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="panelHead">
+      <h2>文本</h2>
+      <select id="modeSelect" class="inline">
+        <option value="material">实验材料 · GPT-2 精确</option>
+        <option value="free">任意文本 · n-gram 近似</option>
+      </select>
+    </div>
+
+    <div id="materialBlock">
+      <div class="row compact">
+        <label>句子</label>
+        <select id="sentenceSelect"></select>
+      </div>
+      <p class="hint" id="materialGazeHint">
+        内置一名被试的实验眼动记录；句子前带 ● 的表示有对应记录，选中即自动叠加并计算阅读效率。
+      </p>
+    </div>
+
+    <div id="freeBlock" hidden>
+      <div class="row compact">
+        <input type="file" id="textInput" accept=".txt">
+        <span id="textStatus" class="hint">未选择文本文件</span>
+      </div>
+      <div class="row compact" id="freeSentenceRow" hidden>
+        <label>句子</label>
+        <select id="freeSentenceSelect"></select>
+      </div>
+      <p class="hint">
+        文本每行一句，顺序与 asc 的试次一致。也可直接选择下方眼动文件，按试次自动对应。
+      </p>
+    </div>
+
+    <div id="difficultyBlock" hidden>
+      <div class="cards" id="diffCards"></div>
+      <div id="gazeWrap" class="gazeWrap">
+        <svg id="gazeSvg" class="gazeSvg" aria-hidden="true"></svg>
+        <div id="sentenceLine" class="sentenceLine"></div>
+      </div>
+      <p class="hint" id="gazeLegend">
+        词背景色：绿 → 红表示由易到难。空心圆：一次注视，圆越大注视越久。
+      </p>
+    </div>
+  </section>
+
+  <section class="panel" id="eyePanel" hidden>
+    <div class="panelHead">
+      <h2>眼动数据</h2>
+      <span class="tag" id="eyeTag">可选</span>
+    </div>
+    <div class="row compact">
+      <input type="file" id="fileInput" accept=".asc">
+      <span id="fileStatus" class="hint">未加载</span>
+    </div>
+    <div class="row" id="trialRow" hidden>
+      <label>试次</label>
+      <select id="trialSelect"></select>
+    </div>
+    <p class="hint" id="eyeHint"></p>
+  </section>
+
+  <section class="panel">
+    <div class="panelHead">
+      <h2>呈现布局</h2>
+      <span class="tag">与实验程序一致</span>
+    </div>
+    <div class="row compact">
+      <label>行首像素 x</label>
+      <input type="number" id="leftMargin" value="600" step="10">
+      <label>每字符宽度</label>
+      <input type="number" id="charWidth" value="50" step="1">
+    </div>
+  </section>
+
+  <section id="readerSection" hidden>
+    <div class="panel">
+      <h2>阅读效率</h2>
+      <div class="cards" id="readerCards"></div>
+      <p id="verdict" class="verdict"></p>
+      <p class="hint" id="readerHint"></p>
+      <div class="tableWrap">
+        <table id="wordTable"></table>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <button id="exportBtn">下载 HTML 报告</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>
+    文本难度：实验材料由 GPT-2 特征 + Ridge 预计算（按句分组 5 折 R² = 0.20）；
+    任意文本为 n-gram 蒸馏近似。阅读效率为实测指标与 45 人常模的对照，不是预测。
+  </p>
+  <p class="credit">中山大学心理学系 · 刘彦平 开发</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

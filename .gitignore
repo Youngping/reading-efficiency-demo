@@ -1,0 +1,7 @@
+# 被试原始数据与测试产物，禁止提交
+test_data/
+docs/screenshots/
+
+# Python 缓存
+__pycache__/
+*.pyc

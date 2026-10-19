@@ -1,0 +1,289 @@
+/* 中文阅读难度自动评估 — 静态演示版
+   作者：中山大学心理学系 刘彦平
+   设计：分节式排版，弱化容器、突出数据与留白 */
+
+:root {
+  --ink: #111827;
+  --muted: #6b7280;
+  --faint: #9ca3af;
+  --line: #e5e7eb;
+  --bg: #ffffff;
+  --accent: #1e3a5f;
+  --accent-soft: #eef2f7;
+  --gaze: #b45309;
+  --maxw: 780px;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: var(--accent);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Microsoft YaHei", "PingFang SC", -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- 页头 ---------- */
+header {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 56px 32px 22px;
+  border-bottom: 1px solid var(--line);
+}
+header h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.7px;
+  line-height: 1.25;
+}
+header .sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  letter-spacing: 0.1px;
+}
+header .credit {
+  margin: 14px 0 0;
+  color: var(--faint);
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+/* ---------- 主体 ---------- */
+main {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 32px 24px;
+}
+
+.panel {
+  border-top: 1px solid var(--line);
+  padding: 30px 0 26px;
+}
+main > .panel:first-child { border-top: none; padding-top: 30px; }
+
+.panelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--ink);
+}
+.tag {
+  font-size: 11.5px;
+  color: var(--faint);
+  letter-spacing: 0.3px;
+}
+
+/* ---------- 表单 ---------- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.row.compact { margin-bottom: 2px; }
+label {
+  min-width: 72px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+select, input[type="number"], input[type="file"], textarea {
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 7px 10px;
+  transition: border-color .15s, box-shadow .15s;
+}
+select:focus, input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, .08);
+}
+select { min-width: 300px; max-width: 100%; }
+select.inline { min-width: 200px; width: auto; }
+input[type="number"] { width: 100px; }
+input[type="file"]:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+textarea { width: 100%; resize: vertical; line-height: 1.75; }
+
+button {
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 15px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+button:hover { border-color: #d1d5db; background: #fafafa; }
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+button.primary:hover { background: #16293f; border-color: #16293f; }
+
+.hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+.hint a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(30,58,95,.25); }
+.hint a:hover { border-bottom-color: var(--accent); }
+code {
+  font-family: Consolas, "SF Mono", monospace;
+  font-size: 11.5px;
+  color: #4b5563;
+  background: #f3f4f6;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ---------- 指标 ---------- */
+.cards {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  margin: 20px 0 18px;
+}
+.card { min-width: 88px; }
+.card .k {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  margin-bottom: 2px;
+}
+.card .v {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  font-variant-numeric: tabular-nums;
+}
+.card .s {
+  color: var(--faint);
+  font-size: 11.5px;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 句子与注视 ---------- */
+.gazeWrap {
+  position: relative;
+  padding-top: 10px;
+  margin: 4px 0 6px;
+}
+.gazeSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 62px;
+  overflow: visible;
+}
+.sentenceLine {
+  font-size: 24px;
+  line-height: 2.05;
+  letter-spacing: 0.6px;
+  word-break: keep-all;
+  color: #1f2937;
+}
+.sentenceLine .w {
+  padding: 2px 1px;
+  border-radius: 3px;
+}
+.sentenceLine .punct { color: #9ca3af; }
+
+/* ---------- 判读 ---------- */
+.verdict {
+  margin: 18px 0 4px;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  font-size: 13.5px;
+}
+
+/* ---------- 表格 ---------- */
+.tableWrap {
+  overflow-x: auto;
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+th, td {
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #f0f1f3;
+}
+th {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid var(--line);
+}
+tbody tr:hover { background: #fafbfc; }
+
+/* ---------- 页脚 ---------- */
+footer {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 22px 32px 56px;
+  border-top: 1px solid var(--line);
+  color: var(--faint);
+  font-size: 11.5px;
+  line-height: 1.8;
+}
+footer p { margin: 4px 0; }
+
+@media (max-width: 640px) {
+  header { padding: 34px 20px 18px; }
+  header h1 { font-size: 22px; }
+  main { padding: 0 20px 20px; }
+  footer { padding: 18px 20px 40px; }
+  select { min-width: 100%; }
+  label { min-width: 100%; }
+  .cards { gap: 28px; }
+  .card .v { font-size: 24px; }
+  .sentenceLine { font-size: 16.5px; }
+}

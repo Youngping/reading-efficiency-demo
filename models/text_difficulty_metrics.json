@@ -1,0 +1,24 @@
+{
+  "n_words": 5071,
+  "n_sentences": 294,
+  "r2": 0.19685416499362107,
+  "pearson_r": 0.4436838193721185,
+  "spearman_rho": 0.41460198946496485,
+  "mae_log": 0.1301447485768681,
+  "features": [
+    "t_surprisal",
+    "t_entropy",
+    "length"
+  ],
+  "label": "cross-subject mean log(GD)",
+  "cv": "GroupKFold(5) by sentence",
+  "coefficients": {
+    "t_surprisal": 0.05278,
+    "t_entropy": -0.00443,
+    "length": 0.04427
+  },
+  "score_range": [
+    5.437557342588448,
+    5.8312196724004295
+  ]
+}

@@ -1,0 +1,1 @@
+{"features":["t_surprisal","t_entropy","length"],"scaler_mean":[10.179772,4.172227,2.052061],"scaler_scale":[5.652995,1.520815,0.640489],"coef":[0.052778,-0.004427,0.044274],"intercept":5.596219,"score_lo":5.437557,"score_hi":5.83122}
